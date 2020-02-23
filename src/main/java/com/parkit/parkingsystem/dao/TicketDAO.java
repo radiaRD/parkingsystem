@@ -22,6 +22,7 @@ public class TicketDAO {
 
 	public boolean saveTicket(Ticket ticket) {
 		Connection con = null;
+
 		try {
 			con = dataBaseConfig.getConnection();
 			PreparedStatement ps = con.prepareStatement(DBConstants.SAVE_TICKET);
@@ -90,4 +91,23 @@ public class TicketDAO {
 		}
 		return false;
 	}
+
+	public int countTicket(String vehicleRegNumber) {
+		Connection con = null;
+		try {
+			con = dataBaseConfig.getConnection();
+			PreparedStatement ps = con.prepareStatement(DBConstants.GET_COUNT);
+			ps.setString(1, vehicleRegNumber);
+
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+
+				return rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }
